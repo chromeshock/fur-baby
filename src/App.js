@@ -1,64 +1,35 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import './App.css';
+import {  useMemo, useContext, useEffect } from "react";
+import { Context } from "./context/FirestoreContext"
+import Firestore from "./handlers/firestore";
+import { useAuthContext } from "./context/AuthContext"
+import Card from "./components/Card";
+import Layout from "./components/Layout";
+import "./App.css";
+
+
+
 
 function App() {
+  const { state, read } = useContext(Context)
+  const { authenticate } = useAuthContext()
+  const count = useMemo(() => {
+    return `you have ${state.items.length} image${state.items.length > 1 ? 's': ''}`
+  }, [state.items])
+
+  useEffect(() => {
+    read()
+    authenticate()
+  }, [authenticate, read])
+
   return (
-    <>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"/></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-    <div className="container text-center mt-5">
-    <h1>Gallery</h1>
-    <div className="row">
-      {Array.apply(null, {length: 9}).map(() => {
-    return (
-      <div className="col mb-5">
-      <div className="card" style={{width: "18rem"}}>
-        <img src="https://via.placeholder.com/200" class="card-img-top" alt="image"/>
-      </div>
-      </div>
-
-      )
-    })
-  }
-    </div>
-    </div>
-    </>
+    <Layout>
+        <h1 className="text-center">Gallery</h1>
+        {count}
+        <div className="row">
+        {state.items.map((item, index) => <Card key={index} {...item}/>)}
+        </div>
+    </Layout>
   );
+ 
 }
-
 export default App;
