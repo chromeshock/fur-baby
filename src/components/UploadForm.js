@@ -4,7 +4,7 @@ import { useAuthContext } from "../context/AuthContext";
 import Firestore from "../handlers/firestore";
 import Storage from "../handlers/storage";
 
-const { writeDoc } = Firestore
+const { writeDoc, readDocs } = Firestore
 const { uploadFile, downloadFile } = Storage 
 
 const Preview = () => {

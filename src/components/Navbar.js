@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useMemo } from "react";
 import { useAuthContext } from "../context/AuthContext"
+import { Link } from "react-router-dom";
 
 const LogIn = () => {
   const {login, currentUser } = useAuthContext() 
@@ -27,9 +28,14 @@ function Navigation() {
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
     {/* remove all links except HOME */}
     <li className="nav-item">
-      <a className="nav-link active" aria-current="page" href="#">
+      <Link className="nav-link active" aria-current="page" to="/">
         Home
-      </a>
+      </Link>
+      </li>
+      <li className="nav-item">
+      <Link className="nav-link active" aria-current="page" to="/stocks">
+        My Images
+      </Link>
     </li>
   </ul>
   )
@@ -63,35 +69,37 @@ function Dropdown() {
     <img className="avatar" src={currentUser?.photoURL} alt={currentUser?.displayName } width="34" height="34"/> :
      "Login"
   }, [currentUser])
-  return( <ul className="navbar-nav mb-2 mb-lg-0">
-  {" "}
-  {/* remove ms-auto */}
-  <li className="nav-item dropdown">
-    <a
-      className="nav-link dropdown-toggle"
-      href="#"
-      id="navbarDropdown"
-      role="button"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-    > 
-    {avatar}
-    </a>
-    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-      <li>
-        <a className="dropdown-item text-center" href="#">
-          {username}
+  
+  return( 
+    <ul className="navbar-nav mb-2 mb-lg-0">
+      <li className="nav-item dropdown">
+        <a
+          className="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        > 
+        {avatar}
         </a>
-        <li><hr className="dropdown divider"/></li>
+        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li>
+            <a className="dropdown-item text-center" href="#">
+              {username}
+            </a>
+          </li>
+          <li><hr className="dropdown-divider"/></li>
+          <div className="d-flex justify-content-center">
+            <LogIn />
+            <LogOut />
+          </div>
+        </ul>
       </li>
-      <div className="d-flex justify-content-center">
-        <LogIn />
-        <LogOut />
-      </div>
     </ul>
-  </li>
-</ul>)
+  )
 }
+
 
 function Navbar() {
     return(
