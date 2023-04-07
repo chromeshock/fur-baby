@@ -1,77 +1,103 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useMemo } from "react";
-import { useAuthContext } from "../context/AuthContext"
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 const LogIn = () => {
-  const {login, currentUser } = useAuthContext() 
+  const { login, currentUser } = useAuthContext();
   return (
-   !currentUser && 
-   <button type="button" className="btn btn-warning" onClick={login}>
-      Login
-    </button>
+    !currentUser && (
+      <button type="button" className="btn btn-warning" onClick={login}>
+        Login
+      </button>
+    )
   );
 };
 
 const LogOut = () => {
-  const {logout, currentUser } = useAuthContext() 
-   return (
-    !!currentUser && 
-    <button type="button" className="btn btn-danger" onClick={logout}>
-       Logout
-     </button>
-   );
- };
+  const { logout, currentUser } = useAuthContext();
+  return (
+    !!currentUser && (
+      <button type="button" className="btn btn-danger" onClick={logout}>
+        Logout
+      </button>
+    )
+  );
+};
 
 function Navigation() {
-  return(
+  const { currentUser } = useAuthContext();
+  const { pathname } = useLocation();
+  return (
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-    {/* remove all links except HOME */}
-    <li className="nav-item">
-      <Link className="nav-link active" aria-current="page" to="/">
-        Home
-      </Link>
-      </li>
+      {/* remove all links except HOME */}
       <li className="nav-item">
-      <Link className="nav-link active" aria-current="page" to="/stocks">
-        My Images
-      </Link>
-    </li>
-  </ul>
-  )
+        <Link
+          className={`nav-link ${pathname === "/" ? "active" : ""}`}
+          aria-current="page"
+          to="/">
+          Home
+        </Link>
+      </li>
+      {currentUser && (
+        <li className="nav-item">
+          <Link
+            className={`nav-link ${pathname === "/stockimages" ? "active" : ""}`} aria-current="page" to="/stockimages">
+            My Stock Images
+          </Link>
+        </li>
+      )}
+        {currentUser && (
+        <li className="nav-item">
+          <Link
+            className={`nav-link ${pathname === "/profile" ? "active" : ""}`} aria-current="page" to="/profile">
+            Profile
+          </Link>
+        </li>
+      )}
+    </ul>
+  );
 }
 
 function SearchForm() {
-  return(
+  return (
     <form className="d-flex">
-    <input
-      className="form-control me-2"
-      type="search"
-      placeholder="Search"
-      aria-label="Search"
-    />
-    <button className="btn btn-outline-success" type="submit">
-      Search
-    </button>
-  </form>
-  )
+      <input
+        className="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <button className="btn btn-outline-success" type="submit">
+        Search
+      </button>
+    </form>
+  );
 }
 
 function Dropdown() {
-  const { currentUser } = useAuthContext() 
+  const { currentUser } = useAuthContext();
 
   const username = useMemo(() => {
-    return currentUser?.displayName || "Profile"
-  }, [currentUser])
+    return currentUser?.displayName || "Profile";
+  }, [currentUser]);
 
   const avatar = useMemo(() => {
-    return !!currentUser ?
-    <img className="avatar" src={currentUser?.photoURL} alt={currentUser?.displayName } width="34" height="34"/> :
-     "Login"
-  }, [currentUser])
-  
-  return( 
+    return !!currentUser ? (
+      <img
+        className="avatar"
+        src={currentUser?.photoURL}
+        alt={currentUser?.displayName}
+        width="34"
+        height="34"
+      />
+    ) : (
+      "Login"
+    );
+  }, [currentUser]);
+  return (
     <ul className="navbar-nav mb-2 mb-lg-0">
+      {" "}
+      {/* remove ms-auto */}
       <li className="nav-item dropdown">
         <a
           className="nav-link dropdown-toggle"
@@ -80,16 +106,20 @@ function Dropdown() {
           role="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
-        > 
-        {avatar}
+        >
+          {avatar}
         </a>
         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li>
-            <a className="dropdown-item text-center" href="#">
-              {username}
-            </a>
-          </li>
-          <li><hr className="dropdown-divider"/></li>
+          {currentUser && (
+            <li>
+              <a className="dropdown-item text-center" href="#">
+                <Link to="/profile">{username}</Link>
+              </a>
+              <li>
+                <hr className="dropdown divider" />
+              </li>
+            </li>
+          )}
           <div className="d-flex justify-content-center">
             <LogIn />
             <LogOut />
@@ -97,34 +127,34 @@ function Dropdown() {
         </ul>
       </li>
     </ul>
-  )
+  );
 }
 
-
 function Navbar() {
-    return(
+  return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-5">
-    <div className="container-fluid">
-      <a className="navbar-brand" href="#">
-        ⚡ Firestock
-      </a>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <Navigation />
-        <SearchForm />
-        <Dropdown />
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">
+          ⚡ Firestock
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <Navigation />
+          <SearchForm />
+          <Dropdown />
+        </div>
       </div>
-    </div>
-    </nav>)
-  }
-  export default Navbar
+    </nav>
+  );
+}
+export default Navbar;

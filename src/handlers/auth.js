@@ -25,7 +25,7 @@ const FirebaseAuth = {
     }, 
     getCurrentUser: () => {
         return new Promise(resolve => {
-            return auth.onAuthStateChanged(resolve)
+             auth.onAuthStateChanged(resolve)
         })
     }
 }

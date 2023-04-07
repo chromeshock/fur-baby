@@ -1,4 +1,10 @@
-import { setDoc, doc, serverTimestamp, collection, getDocs, } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  serverTimestamp,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../lib/firebase.config";
 
 const Firestore = {
@@ -10,7 +16,7 @@ const Firestore = {
       try {
         const snapshots = await getDocs(ref);
         snapshots.forEach((doc) => {
-          const d = { ...doc.data() };
+          const d = { ...doc.data(), id: doc.id };
           docs.push(d);
         });
         resolve(docs);
