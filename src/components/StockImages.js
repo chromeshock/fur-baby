@@ -16,7 +16,7 @@ const StockImages = () => {
     }, [state.items, currentUser])
     return(
         <>
-            <h1>My Stock Images</h1>
+            <h1 className="text-center">My Gallery</h1>
             <List items={items}/>
         </>
     )

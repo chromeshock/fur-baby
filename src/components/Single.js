@@ -7,7 +7,6 @@ function Single() {
     const { state } = useFirestoreContext()
     const { state: routerState } = useLocation() 
     const item = state.items.find(item => item.id === routerState.id)
-    debugger
     return(
        <>
         <button className="btn btn-link" onClick={() => navigate(-1)}>Back</button>

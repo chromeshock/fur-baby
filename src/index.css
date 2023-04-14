@@ -1,13 +1,63 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color:#69510e8e;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.homepage {
+  background-image: url('../Images/Pet_gang.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height:40em;
+  width:100%;
+}
+
+.hero {
+  border-radius: 10px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  margin-left: 0%;
+  margin-right: 0%;
+}
+
+@media screen and (max-width: 1070px) {
+  .homepage {
+    background-image: url('../Images/Pet_gang.jpg');
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height:28em;
+    width:100%;
+  }
+  .hero img {
+   max-width: auto;
+  }
+}
+
+.homecolor {
+  background-color: darkgrey;
+}
+
+img:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+button:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+@font-face {
+  font-family: 'Aladin-Regular';
+  src: url('/src/Downloaded_Fonts/Aladin-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+/* use the font in your styles */
+.header {
+  font-family: 'Aladin-Regular.ttf', sans-serif;
 }

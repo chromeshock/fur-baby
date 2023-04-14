@@ -10,7 +10,7 @@ function Card({ path, title, createdAt, user, id }) {
     const timestamp = useMemo(() => {
         const date = `${new Date(createdAt?.seconds*1000)}`.split(" ")
         return `${date[1]} ${date[2]} ${date[3]}`
-    }, [])
+    }, [createdAt?.seconds])
     return(
         <div className="mb-5" onClick={handleOnClick}>
             <div className="card" style={{width: "18rem"}}>

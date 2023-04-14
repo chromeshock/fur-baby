@@ -1,7 +1,6 @@
 import { useMemo, useContext, useEffect } from "react";
 import { Context } from "./context/FirestoreContext";
 import { useAuthContext } from "./context/AuthContext";
-import List from "./components/List";
 import "./App.css";
 
 function App() {
@@ -15,12 +14,11 @@ function App() {
   useEffect(() => {
     read();
     authenticate();
-  }, []);
+  }, [authenticate, read]);
   return (
     <>
-      <h1 className="text-center">Gallery</h1>
-      {count}
-      <List items={state.items} />
+      <h1 className="text-center">Home</h1>
+     <div className="homepage hero"></div>
     </>
   );
 }

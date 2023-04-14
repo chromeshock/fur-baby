@@ -1,6 +1,9 @@
-import { useMemo } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { useState, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { useFirestoreContext } from "../context/FirestoreContext";
+
 
 const LogIn = () => {
   const { login, currentUser } = useAuthContext();
@@ -42,7 +45,7 @@ function Navigation() {
         <li className="nav-item">
           <Link
             className={`nav-link ${pathname === "/stockimages" ? "active" : ""}`} aria-current="page" to="/stockimages">
-            My Stock Images
+            My Images
           </Link>
         </li>
       )}
@@ -50,7 +53,7 @@ function Navigation() {
         <li className="nav-item">
           <Link
             className={`nav-link ${pathname === "/profile" ? "active" : ""}`} aria-current="page" to="/profile">
-            Profile
+            User Profile
           </Link>
         </li>
       )}
@@ -59,9 +62,20 @@ function Navigation() {
 }
 
 function SearchForm() {
+  const [text, search] = useState(null)
+  const {filterItems: filter} = useFirestoreContext();
+  const handleOnChange = e => {
+    search(e.target.value)
+    filter(e.target.value)
+  }
+  const handleOnSubmit = e => {
+    e.preventDefault()
+    filter(text)
+  }
   return (
-    <form className="d-flex">
+    <form className="d-flex" onSubmit={handleOnSubmit}>
       <input
+        onChange={handleOnChange}
         className="form-control me-2"
         type="search"
         placeholder="Search"
@@ -99,7 +113,7 @@ function Dropdown() {
       {" "}
       {/* remove ms-auto */}
       <li className="nav-item dropdown">
-        <a
+        <Link
           className="nav-link dropdown-toggle"
           href="#"
           id="navbarDropdown"
@@ -108,7 +122,7 @@ function Dropdown() {
           aria-expanded="false"
         >
           {avatar}
-        </a>
+        </Link>
         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
           {currentUser && (
             <li>
@@ -134,8 +148,8 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-5">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
-          ⚡ Firestock
+        <a className="navbar-brand header" href="#">
+          My Furbaby
         </a>
         <button
           className="navbar-toggler"
